@@ -98,7 +98,10 @@ def build_graph_data(start_issue_key, jira, excludes, show_directions, direction
 
         if islink:
             return '"{}\\n({})"'.format(issue_key, summary)
-        return '"{}\\n({})" [href="{}", fillcolor="{}", style=filled]'.format(issue_key, summary, jira.get_issue_uri(issue_key), get_status_color(status))
+        color = get_status_color(status)
+        if fields['issuetype']['name'] == 'Epic':
+            color = "cyan"
+        return '"{}\\n({})" [href="{}", fillcolor="{}", style=filled]'.format(issue_key, summary, jira.get_issue_uri(issue_key), color)
 
     def process_link(fields, issue_key, link):
         if 'outwardIssue' in link:
