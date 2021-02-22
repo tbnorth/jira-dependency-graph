@@ -59,7 +59,9 @@ class JiraSearch(object):
     def list_ids(self, query):
         log('Querying ' + query)
         response = self.get('/search', params={'jql': query, 'fields': 'key', 'maxResults': 100})
-        return [issue["key"] for issue in response.json()["issues"]]
+        keys = [issue["key"] for issue in response.json()["issues"]]
+        log(f"Query returned {len(keys)} tickets")
+        return keys
 
     def get_issue_uri(self, issue_key):
         return self.__base_url + '/browse/' + issue_key
