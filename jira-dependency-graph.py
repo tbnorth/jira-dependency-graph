@@ -6,6 +6,7 @@ import argparse
 import getpass
 import sys
 import textwrap
+import time
 
 import requests
 from functools import reduce
@@ -216,7 +217,7 @@ def create_graph_image(graph_data, image_file, node_shape):
 
         [1]: http://code.google.com/apis/chart/docs/gallery/graphviz.html
     """
-    digraph = 'digraph{node [shape=' + node_shape +'];%s}' % ';'.join(graph_data)
+    digraph = get_graph_source(graph_data, node_shape)
 
     response = requests.post(GOOGLE_CHART_URL, data = {'cht':'gv', 'chl': digraph})
 
@@ -229,8 +230,17 @@ def create_graph_image(graph_data, image_file, node_shape):
     return image_file
 
 
+def get_graph_source(graph_data, node_shape):
+    graph_data = ';\n'.join(graph_data)
+    return f"""digraph {{
+        graph [label='Updated: {time.asctime()}']
+        node [shape='{node_shape}']
+
+        {graph_data}
+    }}"""
+
 def print_graph(graph_data, node_shape):
-    print('digraph{\nnode [shape=' + node_shape +'];\n\n%s\n}' % ';\n'.join(graph_data))
+    print(get_graph_source(graph_data, node_shape))
 
 
 def parse_args():
