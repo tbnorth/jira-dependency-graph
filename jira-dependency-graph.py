@@ -58,7 +58,7 @@ class JiraSearch(object):
 
     def list_ids(self, query):
         log('Querying ' + query)
-        response = self.get('/search', params={'jql': query, 'fields': 'key', 'maxResults': 100})
+        response = self.get('/search', params={'jql': query, 'fields': 'key', 'maxResults': 1000})
         keys = [issue["key"] for issue in response.json()["issues"]]
         log(f"Query returned {len(keys)} tickets")
         return keys
