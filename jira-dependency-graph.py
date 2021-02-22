@@ -233,8 +233,8 @@ def create_graph_image(graph_data, image_file, node_shape):
 def get_graph_source(graph_data, node_shape):
     graph_data = ';\n'.join(graph_data)
     return f"""digraph {{
-        graph [label='Updated: {time.asctime()}']
-        node [shape='{node_shape}']
+        graph [label="Updated: {time.asctime()}"]
+        node [shape="{node_shape}"]
 
         {graph_data}
     }}"""
