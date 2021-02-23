@@ -173,6 +173,10 @@ def build_graph_data(start_issue_key, jira, excludes, show_directions, direction
             log('Skipping ' + issue_key + ' - not traversing to a different project')
             return graph
 
+        if ignore_closed and (fields['status']['name'] in ('Closed', 'Done')):
+            log('Skipping ' + issue_key + ' - it is Closed')
+            return graph
+
         graph.append(create_node_text(issue_key, fields, islink=False))
 
         if not ignore_subtasks:
